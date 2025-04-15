@@ -130,7 +130,7 @@ export default function Home() {
       }
       // Call the refresh API via POST and include access_token in query.
       const response = await axios.post(
-        `${API_BASE_URL}/refresh?access_token=${encodeURIComponent(accessToken)}`,
+        `${NEXT_PUBLIC_API_BASE_URL}/refresh?access_token=${encodeURIComponent(accessToken)}`,
         {}, // no body needed
         { headers: { "Content-Type": "application/json" } }
       );
