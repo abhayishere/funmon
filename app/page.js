@@ -24,7 +24,7 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 export default function Home() {
   const { data: session, status } = useSession();
 
@@ -74,7 +74,7 @@ export default function Home() {
         throw new Error('No access token available; reauthenticate');
       }
       const response = await axios.get(
-        `http://localhost:8080/transactions?filter=${tab}&access_token=${encodeURIComponent(accessToken)}`,
+        `${API_BASE_URL}/transactions?filter=${tab}&access_token=${encodeURIComponent(accessToken)}`,
         { headers: { 'Content-Type': 'application/json' } }
       );
       setSpendingData((prev) => ({
@@ -101,9 +101,9 @@ export default function Home() {
     setError(null);
     try {
       const [dailyRes, weeklyRes, monthlyRes] = await Promise.all([
-        axios.get('http://localhost:8080/transactions?filter=daily'),
-        axios.get('http://localhost:8080/transactions?filter=weekly'),
-        axios.get('http://localhost:8080/transactions?filter=monthly'),
+        axios.get('${API_BASE_URL}/transactions?filter=daily'),
+        axios.get('${API_BASE_URL}/transactions?filter=weekly'),
+        axios.get('${API_BASE_URL}/transactions?filter=monthly'),
       ]);
 
       setSpendingData({
@@ -129,7 +129,7 @@ export default function Home() {
       }
       // Call the refresh API via POST and include access_token in query.
       const response = await axios.post(
-        `http://localhost:8080/refresh?access_token=${encodeURIComponent(accessToken)}`,
+        `${API_BASE_URL}/refresh?access_token=${encodeURIComponent(accessToken)}`,
         {}, // no body needed
         { headers: { "Content-Type": "application/json" } }
       );
