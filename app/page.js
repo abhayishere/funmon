@@ -73,6 +73,7 @@ export default function Home() {
       if (!accessToken) {
         throw new Error('No access token available; reauthenticate');
       }
+      console.log('Fetching data for tab:', tab,API_BASE_URL);
       const response = await axios.get(
         `${API_BASE_URL}/transactions?filter=${tab}&access_token=${encodeURIComponent(accessToken)}`,
         { headers: { 'Content-Type': 'application/json' } }
