@@ -16,24 +16,26 @@ export const authOptions = {
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async jwt({ token, account })       {
+    async jwt({ token, account, user, trigger }) {
       if (account) {
+        console.log("New login detected. Updating token...");
         token.accessToken = account.access_token;
         token.refreshToken = account.refresh_token;
         token.expiresAt = account.expires_at;
+        token.userId = user?.id || token.userId;
+        console.log("JWT CALLBACK ::", { token, account });
+
       }
       return token;
     },
     async session({ session, token }) {
-      session.user.id = token.sub;
       session.accessToken = token.accessToken;
       session.refreshToken = token.refreshToken;
       session.expiresAt = token.expiresAt;
-      console.log("Session:", session);
-      console.log("Token:", token);
-      console.log("Access Token:", session.accessToken);
+      session.user.id = token.userId || token.sub;
+      console.log("SESSION CALLBACK ::", { session, token });
       return session;
-    },
+    }
   },
   pages: {
     signIn: "/auth/signin",
