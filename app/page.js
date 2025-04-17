@@ -296,7 +296,9 @@ export default function Home() {
       </div>
     );
   }
-
+  console.log("Current session user:", session?.user?.email);
+  console.log("AccessToken:", session?.accessToken);
+  
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-lg mx-auto px-4 py-8 relative">
